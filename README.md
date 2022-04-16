@@ -1,3 +1,3 @@
 # spotify-playlist-sync
 
-This application allows you to compare and or contrast your playlists on spotify
+Web application that allows users to compare and contrast their playlists and see the differences between them
