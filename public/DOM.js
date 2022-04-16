@@ -22,15 +22,20 @@ class tableItem {
     th.textContent = this.position;
     button.textContent = this.name;
     td.appendChild(button);
-    tr.appendChild(th, td);
+    tr.appendChild(th);
+    tr.appendChild(td)
     return tr;
   }
 }
 
 function appendPlaylists(data) {
   const table = document.getElementById('playlists')
-  const item = new tableItem(1, data['items'][0]['name'], data['items'][0]['id']);
+  for(let i  = 0; i< data.items.length; i++){
+  const item = new tableItem(i + 1, data.items[i]['name'], data.items[i]['id']);
   table.appendChild(item.toTableItem())
+  }
 }
 
-exports.appendPlaylists = appendPlaylists;
+function renderUser(name, pic){
+      return `<h1 id = "loggedinDesc">Logged in as ${name}</h1> <div class="media"><div class="pull-left"><img class="media-object" width="150" src="${pic}"/></div><table class="table table-hover" id = "data"><thead class="thead-dark"><tr><th scope="col">#</th><th scope="col">Playlist</th></tr></thead><tbody id = "playlists"> </tbody></table></div>`
+}
