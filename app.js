@@ -136,4 +136,5 @@ app.get('/refresh_token', function (req, res) {
 });
 
 console.log('Listening on 8888');
+console.log('http://127.0.0.1:8888/');
 app.listen(8888);
