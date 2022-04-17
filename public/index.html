@@ -18,7 +18,6 @@
         width: 500px;
       }
     </style>
-    <script src="DOM.js"></script>
   </head>
 
   <body>
@@ -32,10 +31,50 @@
         <div id="oauth"></div>
       </div>
     </div>
-
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="DOM.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-     
+      (function () {
+        var params = getHashParams();
+
+        var access_token = params.access_token,
+          refresh_token = params.refresh_token,
+          error = params.error;
+
+        if (error) {
+          alert('There was an error during the authentication');
+        } else {
+          if (access_token) {
+            fetch('https://api.spotify.com/v1/me', {
+              headers: {
+                Authorization: 'Bearer ' + access_token,
+              },
+            })
+              .then((response) => response.json())
+              .then((res) => {
+                $('#login').hide();
+                const user = renderUser(res.display_name, res.images[0].url);
+                document
+                  .querySelector('body')
+                  .insertAdjacentHTML('beforeend', user);
+
+                $('#loggedin').show();
+                fetch('https://api.spotify.com/v1/me/playlists', {
+                  headers: { Authorization: 'Bearer ' + access_token },
+                  json: true,
+                })
+                  .then((response) => response.json())
+                  .then((res) => {
+                    appendPlaylists(res);
+                  });
+              });
+          } else {
+            // render initial screen
+            $('#login').show();
+            $('#loggedin').hide();
+          }
+        }
+      })();
     </script>
   </body>
 </html>

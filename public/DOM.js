@@ -14,50 +14,9 @@ function getHashParams() {
 }
 
 var params = getHashParams();
-
 var access_token = params.access_token,
   refresh_token = params.refresh_token,
   error = params.error;
-
-(function () {
-  var params = getHashParams();
-
-  var access_token = params.access_token,
-    refresh_token = params.refresh_token,
-    error = params.error;
-
-  if (error) {
-    alert('There was an error during the authentication');
-  } else {
-    if (access_token) {
-      fetch('https://api.spotify.com/v1/me', {
-        headers: {
-          Authorization: 'Bearer ' + access_token,
-        },
-      })
-        .then((response) => response.json())
-        .then((res) => {
-          $('#login').hide();
-          const user = renderUser(res.display_name, res.images[0].url);
-          document.querySelector('body').insertAdjacentHTML('beforeend', user);
-
-          $('#loggedin').show();
-          fetch('https://api.spotify.com/v1/me/playlists', {
-            headers: { Authorization: 'Bearer ' + access_token },
-            json: true,
-          })
-            .then((response) => response.json())
-            .then((res) => {
-              appendPlaylists(res);
-            });
-        });
-    } else {
-      // render initial screen
-      $('#login').show();
-      $('#loggedin').hide();
-    }
-  }
-})();
 
 const playlistParams = [];
 class tableItem {
@@ -85,18 +44,15 @@ class tableItem {
     th.textContent = this.position;
     button.textContent = this.name;
     button.addEventListener('click', () => {
-      if(playlistParams.includes(this.id)){
+      if (playlistParams.includes(this.id)) {
         const index = playlistParams.indexOf(this.id);
         if (index > -1) {
-          playlistParams.splice(index, 1); 
+          playlistParams.splice(index, 1);
         }
-        button.style.color = 'black'
-        console.log(playlistParams);
-      }
-      else if (playlistParams.length < 2) {
+        button.style.color = 'black';
+      } else if (playlistParams.length < 2) {
         playlistParams.push(this.id);
         button.style.color = 'green';
-        console.log(playlistParams);
       }
     });
     td.appendChild(button);
@@ -121,3 +77,23 @@ function appendPlaylists(data) {
 function renderUser(name, pic) {
   return `<h1 id = "loggedinDesc">Logged in as ${name}</h1> <div class="media"><div class="pull-left"><img class="media-object" width="150" src="${pic}"/></div><table class="table table-hover" id = "data"><thead class="thead-dark"><tr><th scope="col">#</th><th scope="col">Playlist</th></tr></thead><tbody id = "playlists"> </tbody></table></div><button id = 'continue'>Continue</button>`;
 }
+function renderPlaylists(arr) {
+  for (let i of arr) {
+    fetch(`https://api.spotify.com/v1/playlists/${i}`, {
+      headers: { Authorization: 'Bearer ' + access_token },
+      json: true,
+    })
+      .then((response) => response.json())
+      .then((res) => {
+        console.log(res);
+      });
+  }
+}
+
+let body = document.querySelector('body');
+body.addEventListener('click', (event) => {
+  let target = event.target;
+  if (target.id == 'continue' && playlistParams.length == 2) {
+    renderPlaylists(playlistParams);
+  }
+});
