@@ -78,17 +78,3 @@ function renderUser(name, pic) {
   return `<h1 id = "loggedinDesc">Logged in as ${name}</h1> <div class="media"><div class="pull-left"><img class="media-object" width="150" src="${pic}"/></div><table class="table table-hover" id = "data"><thead class="thead-dark"><tr><th scope="col">#</th><th scope="col">Playlist</th></tr></thead><tbody id = "playlists"> </tbody></table></div><button id = 'continue'>Continue</button>`;
 }
 
-function renderPlaylists(arr, token) {
-  console.log('Before');
-  for (let i of arr) {
-    fetch(`https://api.spotify.com/v1/playlists/${i}`, {
-      headers: { Authorization: 'Bearer ' + token },
-      json: true,
-    })
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res);
-      });
-  }
-  console.log('After');
-}

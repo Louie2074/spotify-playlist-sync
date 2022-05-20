@@ -1,17 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello!</title>
-</head>
-<body>
-    
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compare</title>
+    <style>
+      .fixTableHead {
+        overflow-y: auto;
+        height: 500px;
+        width: auto;
+        display: inline-block;
+      }
+      .fixTableHead thead th {
+        position: sticky;
+        top: 0;
+      }
+      table {
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 8px 15px;
+        border: 2px solid #529432;
+      }
+      th {
+        background: #d82c15;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="fixTableHead">
+      <table>
+        <thead>
+          <tr>
+            <th>Playlist 1</th>
+          </tr>
+        </thead>
 
+        <tbody id = "table1">
+        
+        </tbody>
+      </table>
+    </div>
+    <div class="fixTableHead">
+      <table>
+        <thead>
+          <tr>
+            <th>Playlist 2</th>
+          </tr>
+        </thead>
+
+        <tbody id = "table2">
+        
+        </tbody>
+      </table>
+    </div>
+    <div class="fixTableHead">
+      <table>
+        <thead>
+          <tr>
+            <th>Output</th>
+          </tr>
+        </thead>
+
+        <tbody id = "output">
+       
+        </tbody>
+      </table>
+    </div>
+    <button id = "intersection">Intersection</button>
+    <button id = "A-B">A-B</button>
+    <button id = "B-A">B-A</button>
     <script src="DOM.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="compare.js"></script>
-
-</body>
+  </body>
 </html>
