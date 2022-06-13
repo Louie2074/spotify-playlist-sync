@@ -61,7 +61,6 @@ class tableItem {
     return tr;
   }
 }
-
 function appendPlaylists(data) {
   const table = document.getElementById('playlists');
   for (let i = 0; i < data.items.length; i++) {
@@ -78,3 +77,4 @@ function renderUser(name, pic) {
   return `<h1 id = "loggedinDesc">Logged in as ${name}</h1> <div class="media"><div class="pull-left"><img class="media-object" width="150" src="${pic}"/></div><table class="table table-hover" id = "data"><thead class="thead-dark"><tr><th scope="col">#</th><th scope="col">Playlist</th></tr></thead><tbody id = "playlists"> </tbody></table></div><button id = 'continue'>Continue</button>`;
 }
 
+export {appendPlaylists, getHashParams, renderUser}
