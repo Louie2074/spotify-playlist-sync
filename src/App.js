@@ -1,64 +1,65 @@
 import { useEffect, useState } from 'react';
 import * as DOM from './DOM';
 import Loggedin from './components/loggedin';
-import Login from './components/login';
+
+
 function App() {
-  const CLIENT_ID = '+++++++++++++++++++++++++++++';
-  const REDIRECT_URI = 'http://localhost:3000';
+  const CLIENT_ID = 'a037f933664a4c1fa2fbe84333695bea';
+  const REDIRECT_URI = 'http://localhost:3000/callback/';
   const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize';
   const RESPONSE_TYPE = 'token';
+  const [token, setToken] = useState('');
+  const [user, setUser] = useState('');
+  const [playlists, setPlaylists] = useState([]);
   useEffect(() => {
-    var params = DOM.getHashParams();
+    const hash = window.location.hash;
+    let token = window.localStorage.getItem('token');
 
-    var access_token = params.access_token,
-      error = params.error;
+    if (!token && hash) {
+      token = hash
+        .substring(1)
+        .split('&')
+        .find((elem) => elem.startsWith('access_token'))
+        .split('=')[1];
 
-    if (error) {
-      alert('There was an error during the authentication');
-    } else {
-      if (access_token) {
-        fetch('https://api.spotify.com/v1/me', {
-          headers: {
-            Authorization: 'Bearer ' + access_token,
-          },
-        })
-          .then((response) => response.json())
-          .then((res) => {
-            document.getElementById('login').style.display = 'none';
-            const user = DOM.renderUser(res.display_name, res.images[0].url);
-            document
-              .querySelector('body')
-              .insertAdjacentHTML('beforeend', user);
-
-            document.getElementById('loggedin').style.display = 'block';
-            fetch('https://api.spotify.com/v1/me/playlists', {
-              headers: { Authorization: 'Bearer ' + access_token },
-              json: true,
-            })
-              .then((response) => response.json())
-              .then((res) => {
-                DOM.appendPlaylists(res);
-              });
-          });
-      } else {
-        // render initial screen
-        document.getElementById('login').style.display = 'block'; // show
-        document.getElementById('loggedin').style.display = 'none';
-      }
+      window.location.hash = '';
+      window.localStorage.setItem('token', token);
     }
+
+    setToken(token);
+
+    const getStuff = async (token) => {
+      const headers = {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      };
+      const [user, playlists] = await Promise.all([
+        fetch('https://api.spotify.com/v1/me', headers),
+        fetch('https://api.spotify.com/v1/me/playlists', headers),
+      ]).then((results) => Promise.all(results.map((r) => r.json())));
+      console.log(user);
+      setUser(user);
+      setPlaylists(playlists.items);
+    };
+    getStuff(token)
   }, []);
+
+    
+
+
   return (
     <div className="container">
       <div id="login">
         <h1>Welcome to spotify playlist checker</h1>
         <a
-          href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
+          href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&show_dialog=${true}`}
           className="btn btn-primary"
         >
           Log in with Spotify
         </a>
       </div>
-      <Loggedin />
+      <Loggedin setToken = {setToken} user = {user} playlists = {playlists}/>
     </div>
   );
 }
