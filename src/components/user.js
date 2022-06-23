@@ -1,17 +1,13 @@
 import React from "react";
+import {tableItem} from "../DOM"
 
 function Playlists(props){
     const renderPlaylists = () => {
-    //   return props.playlists.map((playlist) => (
-    //     <div key={artist.id}>
-    //       {artist.images.length ? (
-    //         <img width={'100%'} src={artist.images[0].url} alt="" />
-    //       ) : (
-    //         <div>No Image</div>
-    //       )}
-    //       {artist.name}
-    //     </div>
-    //   ));
+      return props.playlists.map((playlist) => (
+        <div key={playlist.id}>
+          {playlist.name}
+        </div>
+      ));
     };
     return (
       <table className="table table-hover" id="data">
@@ -34,7 +30,7 @@ function User(props) {
       <h1 id="loggedinDesc">Logged in as {user?.display_name}</h1>
       <div className="media">
         <div className="pull-left">
-          <img alt="rip" className="media-object" width="150" src={images?.url} />
+          <img alt="rip" className="media-object" width="150" src={images?images[0].url:""} />
         </div>
         <Playlists playlists={props.playlists} />
       </div>
