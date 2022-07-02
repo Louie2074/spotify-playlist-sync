@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Loggedin from './components/loggedin';
+import Login from './components/login';
 
 function App() {
   const CLIENT_ID = 'a037f933664a4c1fa2fbe84333695bea';
@@ -8,23 +9,23 @@ function App() {
   const RESPONSE_TYPE = 'token';
   const [token, setToken] = useState('');
   const [user, setUser] = useState('');
+  const [loggedin, setLoggedin] = useState(false);
   const [playlists, setPlaylists] = useState([]);
   useEffect(() => {
+    const ONE_HOUR = 3600000;
     const hash = window.location.hash;
     let tokenObj = JSON.parse(window.localStorage.getItem('token'));
 
     const tokenValid = (token) => {
       if (!token) return false;
-      const now = Date.now() / 1000;
+      const now = Date.now();
       const expiry = token.created_at + token.expires_in;
       return now < expiry;
     };
-    if (!tokenObj && !hash) {
+
+    if (!tokenValid(tokenObj) && !hash) {
+      setLoggedin(false);
       return;
-    } else if (token && !tokenValid(tokenObj)) {
-      window.location.replace(
-        `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&show_dialog=${true}`
-      );
     } else {
       let access_token = hash
         ? hash
@@ -36,11 +37,10 @@ function App() {
       let tokenObjStore = {
         access_token: access_token,
         created_at: Date.now(),
-        expires_in: 3600000,
+        expires_in: ONE_HOUR,
       };
       window.location.hash = '';
       window.localStorage.setItem('token', JSON.stringify(tokenObjStore));
-      setToken(access_token);
 
       const getStuff = async () => {
         const headers = {
@@ -52,10 +52,12 @@ function App() {
           fetch('https://api.spotify.com/v1/me', headers),
           fetch('https://api.spotify.com/v1/me/playlists', headers),
         ]).then((results) => Promise.all(results.map((r) => r.json())));
-        console.log(user);
-        console.log(playlists.items);
+        // console.log(user);
+        // console.log(playlists.items);
+        setToken(access_token);
         setUser(user);
         setPlaylists(playlists.items);
+        setLoggedin(true);
       };
       getStuff();
     }
@@ -63,16 +65,21 @@ function App() {
 
   return (
     <div className="container">
-      <div id="login">
-        <h1>Welcome to spotify playlist checker</h1>
-        <a
-          href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&show_dialog=${true}`}
-          className="btn btn-primary"
-        >
-          Log in with Spotify
-        </a>
-      </div>
-      <Loggedin setToken={setToken} user={user} playlists={playlists} />
+      {loggedin ? (
+        <Loggedin
+          setToken={setToken}
+          user={user}
+          playlists={playlists}
+          setLoggedin={setLoggedin}
+        />
+      ) : (
+        <Login
+          AUTH_ENDPOINT={AUTH_ENDPOINT}
+          CLIENT_ID={CLIENT_ID}
+          REDIRECT_URI={REDIRECT_URI}
+          RESPONSE_TYPE={RESPONSE_TYPE}
+        />
+      )}
     </div>
   );
 }

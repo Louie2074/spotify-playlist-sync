@@ -1,11 +1,12 @@
-import * as DOM from "../DOM"
-import { useEffect, useState } from 'react';
-import User from "../components/user"
+
+import User from "./user"
 
 
 function Loggedin(props){
+  
     const logout = () => {
       props.setToken('');
+      props.setLoggedin(false)
       window.localStorage.removeItem('token');
 
       document.location.reload(true);
