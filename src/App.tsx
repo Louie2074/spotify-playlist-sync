@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import Loggedin from './components/loggedin';
 import Login from './components/login';
-import * as Types from './types';
+import { TokenOBJ } from './types';
 import { Route, Routes } from 'react-router-dom';
 import Compare from "./pages/compare"
+import * as Compute from "./Compute"
 
 function App() {
   const CLIENT_ID = 'a037f933664a4c1fa2fbe84333695bea';
@@ -21,25 +22,21 @@ function App() {
 
     let tokenObj = JSON.parse(storage);
 
-    const tokenValid = (token: Types.TokenOBJ): boolean => {
+    const tokenValid = (token: TokenOBJ): boolean => {
       if (!token) return false;
       const now = Date.now();
       const expiry = token.created_at + token.expires_in;
       return now < expiry;
     };
-    const getHashParams = (hash: string) => {
-      return hash
-        ?.substring(1)
-        ?.split('&')
-        ?.find((elem) => elem.startsWith('access_token'))
-        ?.split('=')[1];
-    };
+
 
     if (!tokenValid(tokenObj) && !hash) {
       setLoggedin(false);
       return;
     } else {
-      let access_token = hash ? getHashParams(hash) : tokenObj.access_token;
+      let access_token = hash
+        ? Compute.getHashParams(hash)
+        : tokenObj.access_token;
       let tokenObjStore = {
         access_token: access_token,
         created_at: Date.now(),

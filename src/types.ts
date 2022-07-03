@@ -27,4 +27,21 @@ type playlistProps = {
   setPlaylistParams: Function
 };
 
-export type { TokenOBJ, LoggedInProp, LoginProp, playlistProps };
+type Playlist = {
+  name: string;
+  id: number;
+};
+
+type Track = {
+  name:string
+  id: string
+};
+
+export type {
+  TokenOBJ,
+  LoggedInProp,
+  LoginProp,
+  playlistProps,
+  Track,
+  Playlist,
+};
