@@ -1,5 +1,6 @@
+import { LoginProp } from '../types';
 
-function Login(props) {
+function Login(props: LoginProp) {
   return (
     <div id="login">
       <h1>Welcome to spotify playlist checker</h1>
@@ -17,4 +18,4 @@ function Login(props) {
   );
 }
 
-export default Login
+export default Login;
