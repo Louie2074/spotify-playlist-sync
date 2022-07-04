@@ -64,7 +64,7 @@ function User(props: any) {
             alt="rip"
             className="media-object"
             width="150"
-            src={images ? images[0].url : ''}
+            src={images ? images[0]?.url : ''}
           />
         </div>
         {props.playlists.length ? (
