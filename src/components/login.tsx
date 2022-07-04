@@ -9,7 +9,7 @@ function Login(props: LoginProp) {
           props.CLIENT_ID
         }&redirect_uri=${props.REDIRECT_URI}&response_type=${
           props.RESPONSE_TYPE
-        }&show_dialog=${true}`}
+        }&show_dialog=${true}&scope=${props.SCOPE}`}
         className="btn btn-primary"
       >
         Log in with Spotify

@@ -17,6 +17,7 @@ type LoginProp = {
   CLIENT_ID: string;
   REDIRECT_URI: string;
   RESPONSE_TYPE: string;
+  SCOPE:string
 };
 
 type playlistProps = {
@@ -30,7 +31,11 @@ type playlistProps = {
 type Playlist = {
   name: string;
   id: number;
+  tracks:TrackObj
 };
+type TrackObj = {
+  items:string[]
+}
 
 type Track = {
   name:string

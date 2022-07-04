@@ -10,6 +10,7 @@ function App() {
   const CLIENT_ID = 'a037f933664a4c1fa2fbe84333695bea';
   const REDIRECT_URI = 'http://localhost:3000/callback/';
   const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize';
+  const scope = 'user-read-private user-read-email user-library-read user-read-private';
   const RESPONSE_TYPE = 'token';
   const [token, setToken] = useState('');
   const [user, setUser] = useState('');
@@ -44,8 +45,11 @@ function App() {
       };
       window.location.hash = '';
       window.localStorage.setItem('token', JSON.stringify(tokenObjStore));
+      
 
       const getStuff = async () => {
+   
+        
         const headers = {
           headers: {
             Authorization: 'Bearer ' + access_token,
@@ -56,14 +60,15 @@ function App() {
           fetch('https://api.spotify.com/v1/me/playlists', headers),
         ]).then((results) => {
           if (!results[0].ok || !results[1].ok) {
+
+            
             setLoggedin(false);
             return;
           }
 
           return Promise.all(results.map((r) => r.json()));
         });
-        // console.log(user);
-        // console.log(playlists.items);
+        
         setToken(access_token);
         setUser(user);
         setPlaylists(playlists.items);
@@ -95,6 +100,7 @@ function App() {
                   CLIENT_ID={CLIENT_ID}
                   REDIRECT_URI={REDIRECT_URI}
                   RESPONSE_TYPE={RESPONSE_TYPE}
+                  SCOPE={scope}
                 />
               )
             }

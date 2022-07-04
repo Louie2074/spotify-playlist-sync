@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PlaylistItem from './playlist';
 import { playlistProps } from '../types';
 import { useNavigate } from 'react-router-dom';
@@ -36,23 +36,25 @@ function Playlists(props: any) {
 function User(props: any) {
   const user = props.user;
   const images = props.user.images;
-  const [playlistParams, setPlaylistParams] = useState([])
-  const navigate = useNavigate()
-  const sendPlaylist = ()=>{
-      if (playlistParams.length === 2) {
-        navigate(
-          '/compare' +
-            '?playlist1=' +
-            playlistParams[0] +
-            '&' +
-            'playlist2=' +
-            playlistParams[1] +
-            '&' +
-            'access_token=' +
-            props.token
-        );
-      }
-  }
+  const [playlistParams, setPlaylistParams] = useState([]);
+  const navigate = useNavigate();
+
+  const sendPlaylist = () => {
+    if (playlistParams.length === 2) {
+      navigate(
+        '/compare' +
+          '?playlist1=' +
+          playlistParams[0] +
+          '&' +
+          'playlist2=' +
+          playlistParams[1] +
+          '&' +
+          'access_token=' +
+          props.token
+      );
+    }
+  };
+
   return (
     <>
       <h1 id="loggedinDesc">Logged in as {user?.display_name}</h1>
@@ -65,9 +67,19 @@ function User(props: any) {
             src={images ? images[0].url : ''}
           />
         </div>
-        <Playlists playlistParams = {playlistParams} playlists={props.playlists} setPlaylistParams = {setPlaylistParams} />
+        {props.playlists.length ? (
+          <Playlists
+            playlistParams={playlistParams}
+            playlists={props.playlists}
+            setPlaylistParams={setPlaylistParams}
+          />
+        ) : (
+          <h1>You either don't have any playlists, or they're all private</h1>
+        )}
       </div>
-      <button id="continue" onClick={sendPlaylist}>Continue</button>
+      <button id="continue" onClick={sendPlaylist}>
+        Continue
+      </button>
     </>
   );
 }
