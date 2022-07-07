@@ -1,7 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../styles.css';
 import TrackTable from '../components/TrackTable';
-import { Playlist } from '../types';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Compute from '../Compute';
 
@@ -45,7 +44,6 @@ function Compare() {
     tracksP2.forEach((element) => {
       if (!element.id) element.id = Compute.hashCode(element.name);
     });
-    console.log(tracksP1);
     setP1({ name: playlist1.name, id: playlist1.id, tracks: tracksP1 });
     setP2({ name: playlist2.name, id: playlist2.id, tracks: tracksP2 });
     setOutput({ name: 'Output', tracks: [] });
@@ -65,13 +63,17 @@ function Compare() {
 
   return (
     <>
-      <TrackTable playlist={p1} />
-      <TrackTable playlist={p2} />
-      <TrackTable playlist={output} />
-      <button onClick={intersection}>inBoth</button>
-      <button onClick={diffB}>inFirstOnly</button>
-      <button onClick={diffA}>inSecondOnly</button>
-      <Link to={'/'}>Back</Link>
+      <div id="playlistContainer">
+        <TrackTable playlist={p1} />
+        <TrackTable playlist={p2} />
+        <TrackTable playlist={output} />
+      </div>
+      <div id="buttonContainer">
+        <button onClick={intersection}>inBoth</button>
+        <button onClick={diffB}>inFirstOnly</button>
+        <button onClick={diffA}>inSecondOnly</button>
+        <Link to={'/'}><button style={{color:'black'}}>Back</button></Link>
+      </div>
     </>
   );
 }

@@ -15,7 +15,7 @@ function TrackTable(props) {
       <div className="listbox-area">
         <div>
           <span id="ss_elem" className="listbox-label">
-            {props.playlist.name}:{props.playlist.tracks?.length}
+            {props.playlist.name}: {props.playlist.tracks?.length}
           </span>
           <ul id="ss_elem_list" role="listbox" aria-labelledby="ss_elem">
             {renderPlaylists()}

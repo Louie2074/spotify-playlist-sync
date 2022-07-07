@@ -1,6 +1,19 @@
 .playlistSelected {
   background-color: green;
 }
+#playlistContainer{
+  display: flex;
+  gap: 5%;
+}
+#buttonContainer{
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content:center;
+  align-items: center;
+  gap: 5%;
+
+}
+
 .fixTableHead {
   overflow-y: auto;
   height: 500px;
@@ -35,7 +48,7 @@ th {
 
 [role='listbox'] {
   margin: 1em 0 0;
-  padding: 0;
+  padding:0;
   min-height: 18em;
   border: 1px solid #aaa;
   background: white;
@@ -45,6 +58,7 @@ th {
   position: relative;
   max-height: 18em;
   overflow-y: auto;
+  width: 200px;
 }
 
 [role='listbox'] + *,

@@ -8,6 +8,7 @@ import * as Compute from "./Compute"
 
 function App() {
   const CLIENT_ID = 'a037f933664a4c1fa2fbe84333695bea';
+  //const REDIRECT_URI = 'http://localhost:3000/callback/';
   const REDIRECT_URI = 'https://spotify-playlist-sync-caa6c.web.app/callback/';
   const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize';
   const scope = 'user-read-private user-read-email user-library-read user-read-private';
