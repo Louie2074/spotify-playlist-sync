@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import Loggedin from './components/loggedin';
-import Login from './components/login';
-import { TokenOBJ } from './types';
+import Loggedin from './pages/Home/loggedin';
+import Login from './pages/Login/login';
+import { TokenOBJ } from './data/types';
 import { Route, Routes } from 'react-router-dom';
-import Compare from "./pages/compare"
-import * as Compute from "./Compute"
+import Compare from "./pages/Compare/compare"
+import * as Compute from "./utils/Compute"
 
 function App() {
   const CLIENT_ID = 'a037f933664a4c1fa2fbe84333695bea';

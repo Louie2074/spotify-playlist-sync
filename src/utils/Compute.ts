@@ -1,4 +1,4 @@
-import { Track } from './types';
+import { Track } from '../data/types';
 
 // Generic helper function that can be used for the three operations:
 const operation = (list1: Track[], list2: Track[], isUnion = false) =>

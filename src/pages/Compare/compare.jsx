@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import '../styles.css';
-import TrackTable from '../components/TrackTable';
+import '../../assets/styles.css';
+import TrackTable from '../../components/TrackTable';
 import { Link, useNavigate } from 'react-router-dom';
-import * as Compute from '../Compute';
+import * as Compute from '../../utils/Compute';
 
 function Compare() {
   const [p1, setP1] = useState({});

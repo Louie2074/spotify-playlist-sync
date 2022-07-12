@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import PlaylistItem from './playlist';
-import { playlistProps } from '../types';
+import PlaylistItem from '../../components/playlist';
+import { playlistProps } from '../../data/types';
 import { useNavigate } from 'react-router-dom';
 
 function Playlists(props: any) {

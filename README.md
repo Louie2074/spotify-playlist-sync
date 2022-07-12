@@ -4,10 +4,11 @@ This is a web application that retrieves the users spotify playlist information,
 
 # Development
 1. Make sure you have Node.js installed
-2. Clone the repository onto your machine
-3. Run npm install
-4. Run npm start
-5. Enjoy!
+2. Make sure you've been added to the whitelist
+3. Clone the repository onto your machine
+4. Run npm install
+5. Run npm start
+6. Enjoy!
 
-# Build
+# Production
 https://spotify-playlist-sync-caa6c.web.app

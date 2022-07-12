@@ -1,4 +1,4 @@
-import { LoginProp } from '../types';
+import { LoginProp } from '../../data/types';
 
 function Login(props: LoginProp) {
   return (

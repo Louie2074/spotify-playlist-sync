@@ -1,5 +1,5 @@
-import { LoggedInProp } from '../types';
-import User from './user';
+import { LoggedInProp } from '../../data/types';
+import User from '../Login/user';
 
 function Loggedin(props: LoggedInProp) {
   const logout = () => {
